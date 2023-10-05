@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js",
+    "test": "vitest run",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -19,12 +20,14 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "nodemon": "^3.0.1",
-    "prettier": "3.0.3"
+    "prettier": "3.0.3",
+    "vitest": "^0.34.6"
   },
   "lint-staged": {
     "**/*.js": [
+      "npx eslint --fix",
       "npx prettier --write",
-      "npx eslint --fix"
+      "git add"
     ]
   }
 }
