@@ -1,0 +1,23 @@
+name: Deploy Sandbox
+
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: deploy
+        env:
+          ZCLOUD_USER_TOKEN: ${{ secrets.ZCLOUD_USER_TOKEN }}
+          ZCLOUD_ENV: ${{ secrets.ZCLOUD_ENV }}
+        run: |
+          curl -s https://gh.zcloud.ws/scripts/zcloud-install.sh | sh -
+          ./zcloud deploy --user-token "${ZCLOUD_USER_TOKEN}" --env "${ZCLOUD_ENV}"
