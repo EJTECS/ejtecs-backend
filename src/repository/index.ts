@@ -3,43 +3,53 @@ const uri = process.env.MONGODB_URL;
 const dbName = process.env.DB_NAME;
 
 if (!uri) {
-  throw Error("No database URI configured for MongoDB");
+    throw Error("No database URI configured for MongoDB");
 }
 
 if (!dbName) {
-  throw Error("No database configured for MongoDB");
+    throw Error("No database configured for MongoDB");
 }
 
 export const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    },
 });
+// export function UseMongo(
+//     target: any,
+//     key: string,
+//     descriptor: PropertyDescriptor,
+// ) {
+//     const originalMethod = descriptor.value;
+//     descriptor.value = async function (...args: any[]) {
+//         if (this?.constructor?.name == ProductRepository.name) {
+//             try {
+//                 originalMethod.apply(this, args);
+//             } finally {
+//             }
+//         }
+//     };
+//     return descriptor;
+// }
 
-export async function runWithDb(fn: (db: Db) => void) {
-  let db;
-  try {
-    await client.connect();
-    db = client.db(dbName);
-    fn(db);
-  } finally {
-    await client.close();
-  }
+export function createClient() {
+    return client.db(dbName);
 }
 
 export async function connect() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db(dbName).command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!",
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
+    try {
+        await client.connect();
+        await client.db(dbName).command({ ping: 1 });
+        console.log(
+            "Pinged your deployment. You successfully connected to MongoDB!",
+        );
+    } catch (e) {
+        await client.close();
+    }
+}
+export async function disconnect() {
+    console.log("You successfully disconnected to MongoDB");
     await client.close();
-  }
 }

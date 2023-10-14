@@ -1,14 +1,14 @@
 import express from "express";
-import { connect } from "./repository/index.js";
+import { connect, disconnect } from "./repository/index.js";
+import productRoutes from "./routes/product.js";
 const app = express();
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  const requestBody = req.body;
-  console.log(requestBody);
-  res.send(requestBody);
+await connect();
+process.on("exit", async () => {
+    await disconnect();
 });
 
-await connect();
+app.use(productRoutes);
 
 app.listen(8080);
