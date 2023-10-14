@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node --esm src/index.ts",
     "test": "vitest run",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +30,7 @@
     "nodemon": "^3.0.1",
     "prettier": "3.0.3",
     "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
     "vitest": "^0.34.6"
   },
   "lint-staged": {
