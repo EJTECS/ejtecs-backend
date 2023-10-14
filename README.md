@@ -43,6 +43,12 @@ TODO: rodar mongodb localmente
 npm i
 ```
 
+### Inicie o banco de dados localmente
+```bash
+docker image build -t "ejtecs-mongo" database
+docker container run -p 27017:27017 -d ejtecs-mongo:latest
+```
+
 ### Inicie o servidor
 ```bash
 npm start
