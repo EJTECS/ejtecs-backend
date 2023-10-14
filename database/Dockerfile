@@ -1,0 +1,7 @@
+FROM mongo
+## mongodb://user:pass@localhost:27017/admin
+EXPOSE 27017:27017
+ENV MONGO_INITDB_ROOT_USERNAME user
+ENV MONGO_INITDB_ROOT_PASSWORD pass
+
+
